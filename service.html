@@ -193,7 +193,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
-                        <form action="" method="POST" onsubmit="return validateForm()">
+                        <form id="frm" method="POST" action="#" >
                             <div class="row g-3">
                                 <div class="col-12">
                                     <div class="form-floating">
@@ -322,14 +322,6 @@
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <h5 class="text-white mb-4">Quick Links</h5>
-                    <a class="btn btn-link" href="">About Us</a>
-                    <a class="btn btn-link" href="">Contact Us</a>
-                    <a class="btn btn-link" href="">Our Services</a>
-                    <a class="btn btn-link" href="">Terms & Condition</a>
-                    <a class="btn btn-link" href="">Support</a>
-                </div>
-                <div class="col-lg-3 col-md-6">
                     <h5 class="text-white mb-4">Business Hours</h5>
                     <p class="mb-1">Monday - Friday</p>
                     <h6 class="text-light">09:00 am - 07:00 pm</h6>
@@ -371,7 +363,7 @@
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
     <script>
-        function validateForm() {
+        document.getElementById('frm').onsubmit = function (e) {
             var to = ["ping.li@apasys.co.jp"];
             //var to = document.getElementById("email").value;
             var title = document.getElementById("name").value;
@@ -380,47 +372,52 @@
             var jwzb2 = document.getElementById("jwzb2").checked == true ? document.getElementById("jwzb2").value + "," : "";
             var jwzb3 = document.getElementById("jwzb3").checked == true ? document.getElementById("jwzb3").value + "," : "";
             var jwzb4 = document.getElementById("jwzb4").checked == true ? document.getElementById("jwzb4").value : "";
-            var jwzb = "建物種別:" + jwzb1 + jwzb2 + jwzb3 + jwzb4 + "<br>";
+            var jwzb = "建物種別:" + jwzb1 + jwzb2 + jwzb3 + jwzb4 + "\n";
 
             var hwjcs1 = document.getElementById("hwjcs1").checked == true ? document.getElementById("hwjcs1").value + "," : "";
             var hwjcs2 = document.getElementById("hwjcs2").checked == true ? document.getElementById("hwjcs2").value + "," : "";
             var hwjcs3 = document.getElementById("hwjcs3").checked == true ? document.getElementById("hwjcs2").value + "," : "";
             var hwjcs4 = document.getElementById("hwjcs4").checked == true ? document.getElementById("hwjcs4").value : "";
-            var hwjcs = "室外機設置階数:" + hwjcs1 + hwjcs2 + hwjcs3 + hwjcs4 + "<br>";
+            var hwjcs = "室外機設置階数:" + hwjcs1 + hwjcs2 + hwjcs3 + hwjcs4 + "\n";
 
             var pgx1 = document.getElementById("pgx1").checked == true ? document.getElementById("pgx1").value + "," : "";
             var pgx2 = document.getElementById("pgx2").checked == true ? document.getElementById("pgx2").value : "";
-            var pgx = "配管穴の有無:" + pgx1 + pgx2 + "<br>";
+            var pgx = "配管穴の有無:" + pgx1 + pgx2 + "\n";
 
             var bncz1 = document.getElementById("bncz1").checked == true ? document.getElementById("bncz1").value + "," : "";
             var bncz2 = document.getElementById("bncz2").checked == true ? document.getElementById("bncz2").value + "," : "";
             var bncz3 = document.getElementById("bncz3").checked == true ? document.getElementById("bncz3").value + "," : "";
             var bncz4 = document.getElementById("bncz4").checked == true ? document.getElementById("bncz4").value : "";
-            var bncz = "壁の材質:" + bncz1 + bncz2 + bncz3 + bncz4 + "<br>";
+            var bncz = "壁の材質:" + bncz1 + bncz2 + bncz3 + bncz4 + "\n";
 
             var ktbt1 = document.getElementById("ktbt1").checked == true ? document.getElementById("ktbt1").value + "," : "";
             var ktbt2 = document.getElementById("ktbt2").checked == true ? document.getElementById("ktbt2").value : "";
-            var ktbt = "エアコン本体について:" + ktbt1 + ktbt2 + "<br>";
+            var ktbt = "エアコン本体について:" + ktbt1 + ktbt2 + "\n";
 
             var snjhz1 = document.getElementById("snjhz1").checked == true ? document.getElementById("snjhz1").value + "," : "";
             var snjhz2 = document.getElementById("snjhz2").checked == true ? document.getElementById("snjhz2").value : "";
-            var snjhz = "室内機の化粧カバーの有無:" + snjhz1 + snjhz2 + "<br>";
+            var snjhz = "室内機の化粧カバーの有無:" + snjhz1 + snjhz2 + "\n";
 
             var swjhz1 = document.getElementById("swjhz1").checked == true ? document.getElementById("swjhz1").value + "," : "";
             var swjhz2 = document.getElementById("swjhz2").checked == true ? document.getElementById("swjhz2").value : "";
-            var swjhz = "室外機の化粧カバーの有無:" + swjhz1 + swjhz2 + "<br>";
+            var swjhz = "室外機の化粧カバーの有無:" + swjhz1 + swjhz2 + "\n";
 
             var message = document.getElementById("message").value;
 
-            var content = jwzb + hwjcs + pgx + bncz + ktbt + snjhz + swjhz + message;
-            alert("title-----" + content);
-            var sendMailData = { title: title, mailContent: content, toList: to };
+            var to = [document.getElementById("email").value];
+
+            var content = to + jwzb + hwjcs + pgx + bncz + ktbt + snjhz + swjhz + message;
+            
+            var sendMailData = { title: title, content: content, toList: to };
+            alert("sendMailData-----"+JSON.stringify(sendMailData));
+            alert("sendMailData-----" + JSON.stringify(sendMailData));
             $.ajax({
                 type: "POST",
                 datatype: "text",
                 url: "https://formsendbox.com/sendSimpleMail",
                 data: JSON.stringify(sendMailData),
-                contentType: "application/json",
+                dataType:'json',
+                contentType: 'application/json;charset=UTF-8',
                 beforeSend: function (xhr) {
                     xhr.withCredentials = true;
                 },
@@ -429,6 +426,20 @@
                     alert("success!!!");
                 }
             })
+
+            // var xhr = new XMLHttpRequest();
+            // xhr.open('POST', 'https://formsendbox.com/sendSimpleMail', true);
+            // xhr.setRequestHeader('Content-Type', 'application/json');
+            // xhr.send(JSON.stringify(sendMailData));
+            // xhr.onload = function () {
+            //     if (xhr.status === 200) {
+            //         console.log(xhr.responseText);
+            //         location.href = "index.html";
+            //         alert("ご入力いただきました内容の送信が完了いたしました。");
+            //     } else {
+            //         console.log('Error: ' + xhr.status);
+            //     }
+            // };
         }
     </script>
 </body>
